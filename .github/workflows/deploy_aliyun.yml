@@ -26,5 +26,5 @@ jobs:
           SOURCE: "server/app/"
           REMOTE_HOST: ${{ secrets.ALY_SSH_HOST }}
           REMOTE_USER: "root"
-          TARGET: "/home/test/src/app/"
+          TARGET: "/home/authentication_server/src/app/"
           CI: true
