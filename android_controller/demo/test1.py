@@ -12,6 +12,7 @@ app.xpath("//*[@text='江湖六区']").click()
 app.xpath("//*[@text='气贯长虹']").click()
 app(resourceId = 'com.woniu.mobile9yin:id/citan_btn').click()
 app(resourceId = 'com.woniu.mobile9yin:id/item_citan_btn').click()
+app(resourceId = 'com.woniu.mobile9yin:id/citan_jingyewei').click()
 
 
 # xml = app.dump_hierarchy()
@@ -21,16 +22,3 @@ def get_citan_cishu(app):
     return zong - shengyu
 
 
-    app(resourceId = 'com.woniu.mobile9yin:id/citan_jingyewei').click()
-
-
-def check_citan(app):
-    app(resourceId = 'com.woniu.mobile9yin:id/citan_danci').click()
-
-    app(resourceId = 'com.woniu.mobile9yin:id/citan_item_start_btn').click()
-
-    app.xpath("//*[@text='确认']").click()
-
-    app(resourceId = 'com.woniu.mobile9yin:id/item_submit').click()
-
-    app.xpath("//*[@text='确认']").click()

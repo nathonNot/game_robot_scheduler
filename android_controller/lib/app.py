@@ -23,8 +23,10 @@ class JiuYinApp():
         self.app(resourceId = self.id_res('item_citan_btn')).click()
 
     def do_citan(self):
-        pass
-
+        citan_num = self.get_citan_cishu()
+        if citan_num <= 0:
+            return
+        
     
     def can_citan(self,button):
         jd = button+"_jd"
@@ -41,6 +43,21 @@ class JiuYinApp():
         num1 = num.split("/")[0]
         num2 = num.split("/")[1]
         return num2 - num1
+
+    def check_citan(self):
+        self.app(resourceId = self.id_res('citan_danci')).click()
+
+        self.app(resourceId = self.id_res('citan_item_start_btn')).click()
+        self.app.xpath("//*[@text='确认']").click()
+
+        self.app(resourceId = self.id_res('item_submit')).click()
+        self.app.xpath("//*[@text='确认']").click()
+
+    def get_citan_cishu(self):
+        shengyu = self.app(resourceId = self.id_res('citan_shengyu_cishu')).get_text()
+        zong = self.app(resourceId = self.id_res('citan_zong_cishu')).get_text()
+        return zong - shengyu
+
 
     def id_res(self,id_name):
         return self.config_dc["jiuyin_pkg_name"] + ":id/" + id_name
