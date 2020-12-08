@@ -1,18 +1,23 @@
 
-
-func_dc = {}
-
-
-def hand(func_name):
-    def decorator(func):
-        def wrapper(*args,**kwargs):
-            global func_dc
-            func_dc[func_name] = func
-            return func(*args)
-        return wrapper
-    return decorator
+from loguru import logger
 
 
-@hand(func_name = "hand_test")
+
+class FunctionManager:
+
+    def __init__(self):
+        logger.info("初始化websocket回调")
+        self.func_dc = {}
+ 
+    def __call__(self, func_name, *args, **kwargs):
+        def register(cls):
+            self.func_dc[func_name] = cls
+            return cls
+        return register
+
+function_manager = FunctionManager()
+
+
+@function_manager(func_name = "hand_test")
 async def hand_test(user_id,msg):
     print(msg)

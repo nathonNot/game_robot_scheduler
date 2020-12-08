@@ -5,7 +5,7 @@ import json
 from app.main import ws_manager
 from typing import Optional
 import app.config as cfg
-import app.api.socket_handle as handler
+from app.api.socket_handle import function_manager as func_man
 
 router = APIRouter()
 
@@ -29,7 +29,7 @@ async def websocket_endpoint(
     try:
         while True:
             data = await websocket.receive_json()
-            func = handler.func_dc.get(data["call_back"], None)
+            func = func_man.func_dc.get(data["call_back"], None)
             if func != None:
                 await func(user_id=user_id, msg=data["data"])
             else:
@@ -51,7 +51,7 @@ async def websocket_endpoint(
     try:
         while True:
             data = await websocket.receive_json()
-            func = handler.func_dc.get(data["call_back"], None)
+            func = func_man.func_dc.get(data["call_back"], None)
             if func != None:
                 await func(user_id="", msg=data["data"])
     except WebSocketDisconnect:

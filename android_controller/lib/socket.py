@@ -33,11 +33,10 @@ class WebSocketClient():
     @staticmethod
     def on_message(ws, message):
         logger.info(message)
-        data = {
-            "call_back":"send_user_msg",
-            "data":"hello"
-        }
-        ws.send(json.dumps(data))
+        ws.send(json.dumps({
+            "call_back":"hand_test",
+            "data":"测试测试"
+        }))
 
     @staticmethod
     def on_error(ws, error):

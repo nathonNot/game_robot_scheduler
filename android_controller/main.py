@@ -16,7 +16,8 @@ def init_log():
     logger.add(log_path_error, rotation="12:00", retention="5 days", enqueue=True)
 
 def main():
-    WebSocketClient().do_con()
+    ws = WebSocketClient()
+    ws.do_con()
     # d = u2.connect("emulator-5554")
     # app = JiuYinApp(d)
     # app.login("11111","11111","江湖七区","醉江湖")
