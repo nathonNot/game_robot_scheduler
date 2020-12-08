@@ -10,7 +10,7 @@ class ConnectionManager:
     # 存放激活的ws连接对象
     active_connections: Dict[int, WebSocket] = {}
 
-    async_callback = {}
+    async_callback_data = {}
 
     # 安卓端ws对象
     android_connections: Dict[int, WebSocket] = {}
@@ -59,7 +59,7 @@ class ConnectionManager:
             return {"msg": "错误，客户端未连接"}
         if user_id in cls.active_connections:
             await cls.active_connections[user_id].send_json(message)
-            data = await cls.active_connections[user_id].receive_text()
+            data = await cls.get_res_data(user_id,"send_user_msg")
             return data
         return "okokokok"
     
@@ -79,13 +79,21 @@ class ConnectionManager:
             await connection.send_text(message)
 
     @classmethod
-    async def call_back(cls, user_id, call_back_func_name, data):
-        func_name_dc = cls.async_callback.get(user_id, {})
-        if func_name_dc == {}:
-            logger.error("未找到注册方法")
-            return
-        func = func_name_dc.get(call_back_func_name, None)
-        if func == None:
-            logger.error("注册方法为空，逻辑异常")
-            return
-        await func(data)
+    async def call_back(cls,user_id,call_back_func_name,data):
+        if user_id not in cls.async_callback_data:
+            cls.async_callback_data[user_id] = {}
+        if call_back_func_name not in cls.async_callback_data[user_id]:
+            cls.async_callback_data[user_id][call_back_func_name] = ""
+        cls.async_callback_data[user_id][call_back_func_name] = data
+
+    @classmethod
+    async def get_res_data(cls,user_id,func_name):
+        n = 0.5
+        while n < 2:
+            await asyncio.sleep(0.5)
+            func_dc = cls.async_callback_data.get(user_id,{})
+            if func_dc == {}:
+                continue
+            if func_name in func_dc:
+                return func_dc[func_name]
+        return "未知错误"
