@@ -20,7 +20,7 @@ async def startup():
 async def shutdown():
     await database.disconnect()
 
-from app.api import notes, ping, jiuyin, api_user,hook,web_scoket
+from app.api import notes, ping, jiuyin, api_user,hook,web_scoket,api_controller
 
 app.include_router(ping.router)
 app.include_router(web_scoket.router)
@@ -28,6 +28,8 @@ app.include_router(jiuyin.router, prefix="/api/jiuyin", tags=["jiuyin"])
 app.include_router(api_user.router, prefix="/api/user", tags=["user"])
 app.include_router(notes.router, prefix="/notes", tags=["notes"])
 app.include_router(hook.router, prefix="/api/hook", tags=["hook"])
+app.include_router(api_controller.router, prefix="/api/controller", tags=["controller"])
+
 
 init_log()
 

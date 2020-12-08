@@ -33,40 +33,48 @@ class JiuYinApp():
         self.app.press("back")
         self.start_citan()
         citan_num = self.get_citan_cishu()
+        need_citan_num = citan_num
         logger.debug("此账号需要刺探次数："+str(citan_num))
         if citan_num <= 0:
             return
         school = self.config_dc["menpai_list"]
         for s in school:
-            self.citan_btn_check(s)
+            if self.citan_btn_check(s):
+                break
         citan_num -= 1
         # 这个时候会回退到最开始界面
         if citan_num <= 0:
             logger.info("刺探结束")
             return
-        for _ in range(citan_num):
+        for _ in range(0, citan_num):
             time.sleep(1)
             self.start_citan()
             logger.debug("开始剩余刺探:"+str(citan_num))
             for s in school:
-                self.citan_btn_check(s)
+                if self.citan_btn_check(s):
+                    # 跳出第一层
+                    break
+        logger.info("本次刺探结束，刺探完成次数:"+need_citan_num)
 
-    def citan_btn_check(self,btn):
+    def citan_btn_check(self, btn):
         btn_res = "citan_"+btn
         if self.can_citan(btn) > 0:
             logger.debug("开始刺探，刺探门派："+btn)
             self.app(resourceId=self.id_res(btn_res)).click()
             self.check_citan()
-            return
+            return True
+        return False
 
     def can_citan(self, button):
         jd = button+"_jd"
         jd = self.id_res(jd)
         ret_str = ""
+        self.app.implicitly_wait(3)
         try:
             ret_str = self.app(resourceId=jd).get_text()
         except Exception as identifier:
             pass
+        self.app.implicitly_wait(20)
         if ret_str == "":
             return 0
         # 进度:0/4
