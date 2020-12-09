@@ -17,6 +17,9 @@ def init_log():
     logger.add(log_path_error, rotation="12:00", retention="5 days", enqueue=True)
 
 def main():
+    # 启动adb进程
+    d = os.popen("adb devices")
+    logger.info(d.read())
     global_variable.an_conn = u2.connect("emulator-5554")
     ws = WebSocketClient()
     ws.do_con()
