@@ -129,3 +129,6 @@ dmypy.json
 demo_config.py
 config.json
 tests/.vscode/settings.json
+android_controller/.vscode/settings.json
+server/.vscode/settings.json
+android_controller/.vscode/settings.json
