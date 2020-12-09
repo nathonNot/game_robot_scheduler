@@ -57,11 +57,9 @@ class ConnectionManager:
     async def send_user_msg(cls, user_id, message):
         if not user_id in cls.active_connections:
             return {"msg": "错误，客户端未连接"}
-        if user_id in cls.active_connections:
-            await cls.active_connections[user_id].send_json(message)
-            data = await cls.get_res_data(user_id,"send_user_msg")
-            return data
-        return "okokokok"
+        await cls.active_connections[user_id].send_json(message)
+        data = await cls.get_res_data(user_id,"send_user_msg")
+        return data
     
     @classmethod
     async def an_con_send_msg(cls,message):
@@ -72,6 +70,21 @@ class ConnectionManager:
                     await ws.send_json(message)
                     return "任务提交完成"
         return "未找到可用"
+
+    @classmethod
+    async def an_con_send_msg_one(cls,an_key,message,call_back):
+        ws = cls.android_connections.get(an_key,None)
+        if ws == None:
+            return "未找到对应安卓设备"
+        await ws.send_json(message)
+        data = await cls.get_res_data(an_key,call_back)
+        return data
+
+    @classmethod
+    async def get_all_an_con(cls):
+        '''获取所有安卓设备得连接'''
+        return cls.android_connections_status
+
 
     async def broadcast(self, message: str):
         # 广播消息
@@ -90,6 +103,7 @@ class ConnectionManager:
     async def get_res_data(cls,user_id,func_name):
         n = 0.5
         while n < 2:
+            n += 0.5
             await asyncio.sleep(0.5)
             func_dc = cls.async_callback_data.get(user_id,{})
             if func_dc == {}:

@@ -4,6 +4,7 @@ import os
 from loguru import logger
 import time
 from lib.socket import WebSocketClient
+import global_variable
 
 def init_log():
     if not os.path.exists("log"):
@@ -16,9 +17,9 @@ def init_log():
     logger.add(log_path_error, rotation="12:00", retention="5 days", enqueue=True)
 
 def main():
+    global_variable.an_conn = u2.connect("emulator-5554")
     ws = WebSocketClient()
     ws.do_con()
-    # d = u2.connect("emulator-5554")
     # app = JiuYinApp(d)
     # app.login("11111","11111","江湖七区","醉江湖")
     # app.do_citan()

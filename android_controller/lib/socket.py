@@ -32,15 +32,32 @@ class WebSocketClient():
 
     @staticmethod
     def on_message(ws, message):
-        logger.info(message)
-        ws.send(json.dumps({
-            "call_back":"hand_test",
-            "data":"测试测试"
-        }))
+        # 防止依赖崩
+        from module.msg_hand import function_manager as func_man
+
+        logger.debug(message)
+        data = ""
+        res = None
+        try:
+            data = json.loads(message)
+            res = {}
+            res["call_back"] = data["func"]
+            res["data"] = func_man.func_dc[data["func"]](data=data["data"])
+        except Exception as identifier:
+            logger.error(str(identifier))
+            logger.error(message)
+            if data != "":
+                res = {
+                    "call_back":data["func"],
+                    "data":str(identifier)
+                }
+        
+        if res != None:
+            ws.send(json.dumps(res))
 
     @staticmethod
     def on_error(ws, error):
-        logger.info(error)
+        logger.error(error)
 
     @staticmethod
     def on_close(ws):

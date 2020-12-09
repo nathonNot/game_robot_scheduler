@@ -54,5 +54,7 @@ async def websocket_endpoint(
             func = func_man.func_dc.get(data["call_back"], None)
             if func != None:
                 await func(user_id="", msg=data["data"])
+            else:
+                await ws_manager.call_back(key1, data["call_back"], data["data"])
     except WebSocketDisconnect:
         ws_manager.an_disconnect(key1)
