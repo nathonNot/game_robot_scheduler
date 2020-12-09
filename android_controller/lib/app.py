@@ -54,7 +54,7 @@ class JiuYinApp():
             while True:
                 if self.citan_item_init_succes():
                     break
-            self.refresh_act()
+            return self.refresh_act()
         elif act == "CiTanActivity":
             citan_num = self.get_citan_cishu()
             if citan_num <= 0:
@@ -64,12 +64,12 @@ class JiuYinApp():
             school = self.config_dc["menpai_list"]
             for s in school:
                 if self.citan_btn_check(s):
-                    self.refresh_act()
+                    return self.refresh_act()
             logger.info("刺探结束，剩余刺探次数"+str(citan_num))
             return
         elif act == "CiTanItemActivity":
             self.check_citan()
-            self.refresh_act()
+            return self.refresh_act()
 
     def citan_item_init_succes(self):
         school = self.config_dc["menpai_list"]
