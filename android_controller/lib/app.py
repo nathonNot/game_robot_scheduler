@@ -1,3 +1,4 @@
+from logging import fatal
 import config.config as cfg
 import time
 from loguru import logger
@@ -7,7 +8,8 @@ class JiuYinApp():
 
     def __init__(self, app):
         self.config_dc = cfg.get_config()
-        self.app = app.session(
+        self.app = app
+        self.session = app.session(
             self.config_dc["jiuyin_pkg_name"])  # 启动应用并获取session
 
     def login(self, user_name, pas_word, server1, server2):
@@ -22,39 +24,62 @@ class JiuYinApp():
         server2_str = text_str.format(server_name=server2)
         self.app.xpath(server2_str).click()
 
-    def start_citan(self):
+    def start_citan(self,sleep = True):
         self.app(resourceId=self.id_res('citan_btn')).click()
         self.app(resourceId=self.id_res('item_citan_btn')).click()
-        time.sleep(5)
+        if sleep:
+            time.sleep(5)
+
+    def get_act(self):
+        info_dc = self.app.app_current()
+        act = info_dc['activity']
+        act = act.split(".")[-1]
+        return act
 
     def do_citan(self):
-        self.start_citan()
-        # 防止数据加载不出来
-        self.app.press("back")
-        self.start_citan()
-        citan_num = self.get_citan_cishu()
-        need_citan_num = citan_num
-        logger.debug("此账号需要刺探次数："+str(citan_num))
-        if citan_num <= 0:
-            return
-        school = self.config_dc["menpai_list"]
-        for s in school:
-            if self.citan_btn_check(s):
-                break
-        citan_num -= 1
-        # 这个时候会回退到最开始界面
-        if citan_num <= 0:
-            logger.info("刺探结束")
-            return
-        for _ in range(0, citan_num):
+        for _ in range(10):
             time.sleep(1)
+            if self.get_act() == "ChooseFunctionActivity":
+                break
+        self.refresh_act()
+
+    def refresh_act(self):
+        time.sleep(2)
+        act = self.get_act()
+        if act == "ChooseFunctionActivity":
             self.start_citan()
-            logger.debug("开始剩余刺探:"+str(citan_num))
+            # 防止数据加载不出来
+            self.app.press("back")
+            self.start_citan(False)
+            while True:
+                if self.citan_item_init_succes():
+                    break
+            self.refresh_act()
+        elif act == "CiTanActivity":
+            citan_num = self.get_citan_cishu()
+            if citan_num <= 0:
+                logger.info("刺探完成")
+                return
+            logger.debug("此账号需要刺探次数："+str(citan_num))
+            school = self.config_dc["menpai_list"]
             for s in school:
                 if self.citan_btn_check(s):
-                    # 跳出第一层
-                    break
-        logger.info("本次刺探结束，刺探完成次数:"+need_citan_num)
+                    self.refresh_act()
+            logger.info("刺探结束，剩余刺探次数"+str(citan_num))
+            return
+        elif act == "CiTanItemActivity":
+            self.check_citan()
+            self.refresh_act()
+
+    def citan_item_init_succes(self):
+        school = self.config_dc["menpai_list"]
+        school_num = 0
+        for s in school:
+            if self.can_citan(s) >=0:
+                school_num += 1
+        if school_num >= 5:
+            return True
+        return False
 
     def citan_btn_check(self, btn):
         btn_res = "citan_"+btn
@@ -76,12 +101,14 @@ class JiuYinApp():
             pass
         self.app.implicitly_wait(20)
         if ret_str == "":
-            return 0
+            return -1
         # 进度:0/4
         num = ret_str.split(":")[1]
         num1 = num.split("/")[0]
         num2 = num.split("/")[1]
-        return int(num2) - int(num1)
+        need_num = int(num2) - int(num1)
+        logger.debug(button+"   "+ret_str+"need_num：："+str(need_num))
+        return need_num
 
     def check_citan(self):
         self.app(resourceId=self.id_res('citan_danci')).click()
@@ -102,4 +129,4 @@ class JiuYinApp():
         return self.config_dc["jiuyin_pkg_name"] + ":id/" + id_name
 
     def close(self):
-        self.app.close()
+        self.app.app_stop(self.config_dc["jiuyin_pkg_name"])
