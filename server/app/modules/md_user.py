@@ -2,6 +2,7 @@ from app.api.models import UserSchema
 from app.db import TableUser, database
 import datetime
 from sqlalchemy.sql import func
+import uuid
 
 
 async def creat_user(user: UserSchema, ip: str):
@@ -9,7 +10,7 @@ async def creat_user(user: UserSchema, ip: str):
     userdb = await database.fetch_one(query=query)
     if not userdb is None:
         return {"msg": "已存在此用户"}, 210
-    query = TableUser.insert().values(user_name=user.user_name,
+    query = TableUser.insert().values(id=get_user_id(), user_name=user.user_name,
                                       user_password=user.user_pass, user_last_ip=ip, user_creat_time=func.now())
 
     query = await database.execute(query=query)
@@ -41,3 +42,7 @@ async def get_user(user: UserSchema, ip: str):
             "id": userdb.get("id"),
             "user_name": userdb.get("user_name"),
             "user_password": userdb.get("user_password")}, 200
+
+
+def get_user_id():
+    return str(uuid.uuid4())

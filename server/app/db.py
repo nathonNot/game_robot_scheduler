@@ -28,15 +28,41 @@ notes = Table(
 TableUser = Table(
     "table_user",
     metadata,
-    Column("id", Integer, primary_key=True),
+    Column("id", String(64), primary_key=True),
     Column("user_name", String(50)),
     Column("user_phone", Integer),
     Column("user_password", String(255)),
     Column("user_creat_time", DateTime),
     Column("user_last_login_time", DateTime),
     Column("user_last_ip", String(50)),
-
 )
+
+CiTanTask = Table(
+    "citan_task",
+    metadata,
+    Column("task_id", Integer, primary_key=True),
+    Column("user_id", String(64)),
+    Column("account_number", String(128)),
+    Column("account_password", String(128)),
+    Column("server1", String(128)),
+    Column("server2", String(128)),
+    Column("task_change_time", DateTime),
+    Column("task_status", String(64)),
+)
+
+CiTanTaskLog = Table(
+    "citan_task_log",
+    metadata,
+    Column("log_id", Integer, primary_key=True),
+    Column("task_id", String(64)),
+    Column("account_number", String(128)),
+    Column("account_password", String(128)),
+    Column("server1", String(128)),
+    Column("server2", String(128)),
+    Column("log_time", DateTime),
+    Column("log_status", String(64)),
+)
+
 
 # databases query builder
 database = Database(DATABASE_URL)
