@@ -25,7 +25,8 @@ async def websocket_endpoint(
         return
     user_id = data["user_id"]
     await ws_manager.connect(websocket, user_id)
-
+    for login_func in func_man.login_func:
+        await login_func(user_id,"")
     try:
         while True:
             data = await websocket.receive_json()

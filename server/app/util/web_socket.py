@@ -48,10 +48,15 @@ class ConnectionManager:
         if key in self.android_connections_status:
             del self.android_connections_status[key]
 
-    @staticmethod
-    async def send_personal_message(message: dict, ws: WebSocket):
+    @classmethod
+    async def send_personal_message(cls, user_id, message,isjson=True):
         # 发送个人消息
-        await ws.send_json(message)
+        if not user_id in cls.active_connections:
+            return {"msg": "错误，客户端未连接"}
+        if isjson:
+            await cls.active_connections[user_id].send_json(message)
+        else:
+            await cls.active_connections[user_id].send_text(message)
 
     @classmethod
     async def send_user_msg(cls, user_id, message):

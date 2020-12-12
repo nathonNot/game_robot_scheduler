@@ -47,6 +47,7 @@ CiTanTask = Table(
     Column("server1", String(128)),
     Column("server2", String(128)),
     Column("task_change_time", DateTime),
+    Column("task_start_time", Integer),
     Column("task_status", String(64)),
 )
 
