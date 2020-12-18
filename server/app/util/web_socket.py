@@ -67,13 +67,14 @@ class ConnectionManager:
         return data
     
     @classmethod
-    async def an_con_send_msg(cls,message):
+    async def an_con_send_msg(cls,message,call_back):
         for k,v in cls.android_connections_status.items():
             if v["status"] == "ready":
                 ws = cls.android_connections.get(k,None)
                 if ws != None:
                     await ws.send_json(message)
-                    return "任务提交完成"
+                    data = await cls.get_res_data(k,call_back)
+                    return data
         return "未找到可用"
 
     @classmethod
@@ -114,5 +115,8 @@ class ConnectionManager:
             if func_dc == {}:
                 continue
             if func_name in func_dc:
-                return func_dc[func_name]
+                data = func_dc[func_name]
+                # 清除掉数据缓存
+                del func_dc[func_name]
+                return data
         return "未知错误"
