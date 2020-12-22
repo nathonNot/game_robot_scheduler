@@ -75,7 +75,7 @@ async def device_con(an_key:str):
 
 @router.get("/start_citan2")
 async def device_con(task_id:int):
-    call_back = "start_citan2"
+    call_back = "start_citan"
     # 先查，再推送
     task_data,status = await md_task.get_task(task_id)
     if status != 200:
