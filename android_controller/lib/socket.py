@@ -1,5 +1,3 @@
-import asyncio
-import base64
 import json
 import config.config as cfg
 from loguru import logger
@@ -10,6 +8,7 @@ try:
 except ImportError:
     import _thread as thread
 import random
+import global_variable
 
 class WebSocketClient():
 
@@ -68,6 +67,7 @@ class WebSocketClient():
         def run(*args):
             logger.info("con to server")
         thread.start_new_thread(run, ())
+        global_variable.ws = ws
 
     @classmethod
     def send_json(cls,data):
