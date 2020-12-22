@@ -5,8 +5,9 @@ from loguru import logger
 
 class JiuYinCiTanThread(threading.Thread):
 
-    def __init__(self,user_name,user_password,server1,server2):
+    def __init__(self,task_id,user_name,user_password,server1,server2):
         super().__init__()
+        self.task_id = task_id
         self.user_name = user_name
         self.user_password = user_password
         self.server1 = server1

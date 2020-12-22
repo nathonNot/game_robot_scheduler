@@ -3,7 +3,6 @@ import config.config as cfg
 import time
 from loguru import logger
 
-
 class JiuYinApp():
 
     def __init__(self, app):
@@ -18,9 +17,13 @@ class JiuYinApp():
         self.app(resourceId=self.id_res('et_pwd')).click()
         self.app.send_keys(pas_word)
         self.app(resourceId=self.id_res('signin_button')).click()
-        text_str = "//*[@text='{server_name}']"
-        server1_str = text_str.format(server_name=server1)
-        self.app.xpath(server1_str).click()
+        try:
+            text_str = "//*[@text='{server_name}']"
+            server1_str = text_str.format(server_name=server1)
+            self.app.xpath(server1_str).click()
+        except Exception as identifier:
+            raise Exception("账号或密码不对")
+        
         server2_str = text_str.format(server_name=server2)
         self.app.xpath(server2_str).click()
 
