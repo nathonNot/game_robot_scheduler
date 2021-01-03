@@ -35,6 +35,7 @@ TableUser = Table(
     Column("user_creat_time", DateTime),
     Column("user_last_login_time", DateTime),
     Column("user_last_ip", String(50)),
+    Column("user_vip_end_time", DateTime),
 )
 
 CiTanTask = Table(
