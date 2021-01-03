@@ -58,7 +58,8 @@ def start_citan(data):
             "status": msg_state.an_not_ready,
             "msg": "设备正在运行任务"
         }
-    jyct = JiuYinCiTanThread(
+    task_id = data.get("task_id",1)
+    jyct = JiuYinCiTanThread(task_id,
         data["user_name"], data["user_password"], data["server1"], data["server2"])
     jyct.start()
     return {
