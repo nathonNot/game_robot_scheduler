@@ -43,7 +43,9 @@ async def get_user(user: UserSchema, ip: str):
     return {"msg": "成功",
             "id": userdb.get("id"),
             "user_name": userdb.get("user_name"),
-            "user_password": userdb.get("user_password")}, 200
+            "user_password": userdb.get("user_password"),
+            "vip_end_time": str(userdb.get("user_vip_end_time"))[:16]
+            }, 200
 
 
 def get_user_id():
