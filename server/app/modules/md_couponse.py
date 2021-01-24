@@ -39,14 +39,7 @@ async def activate_componse(user_id:str,componse_id:str):
     if user_vip_end_time is None:
         user_vip_end_time = datetime.datetime.now()
     user_vip_end_time += datetime.timedelta(days=30)
-    update = (
-        TableUser
-        .update()
-        .where(userdb.get("id") == TableUser.c.id)
-        .values(user_vip_end_time=user_vip_end_time)
-        .returning(TableUser.c.id)
-    )
-    await database.execute(query=update)
+    
     update = (
         VipCouponse.update()
         .where(VipCouponse.c.id == compose.get("id"))
@@ -55,6 +48,14 @@ async def activate_componse(user_id:str,componse_id:str):
                 status = 1
         )
         .returning(VipCouponse.c.id)
+    )
+    await database.execute(query=update)
+    update = (
+        TableUser
+        .update()
+        .where(userdb.get("id") == TableUser.c.id)
+        .values(user_vip_end_time=user_vip_end_time)
+        .returning(TableUser.c.id)
     )
     await database.execute(query=update)
     return {"msg":"激活成功"}
