@@ -47,14 +47,14 @@ async def activate_componse(user_id:str,componse_id:str):
         .returning(TableUser.c.id)
     )
     await database.execute(query=update)
-    update = {
+    update = (
         VipCouponse.update()
-        .where(VipCouponse.c.id == componse_id)
+        .where(VipCouponse.c.id == compose.get("id"))
         .values(activate_time = datetime.datetime.now(),
                 activate_user_id = user_id,
                 status = 1
         )
         .returning(VipCouponse.c.id)
-    }
+    )
     await database.execute(query=update)
     return {"msg":"激活成功"}
