@@ -17,3 +17,8 @@ class UserSchema(BaseModel):
 
 class UserDB(UserSchema):
     id:int
+
+
+class CouPonseAct(BaseModel):
+    user_id:str = Field(..., min_length=36, max_length=36)
+    couponse_id:str = Field(..., min_length=36, max_length=36)
