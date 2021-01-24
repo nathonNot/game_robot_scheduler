@@ -29,7 +29,7 @@ async def activate_componse(user_id:str,componse_id:str):
         return {"msg": "不存在此激活码"}
     if int(compose.get("status")) == 1:
         return {"msg":"此激活码已失效"}
-    if len(compose.get("activate_user_id")) > 1:
+    if compose.get("activate_user_id") is None:
         return {"msg":"此激活码已失效"}
     query = TableUser.select().where(user_id == TableUser.c.id)
     userdb = await database.fetch_one(query=query)
