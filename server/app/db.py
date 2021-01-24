@@ -65,6 +65,17 @@ CiTanTaskLog = Table(
     Column("log_status", String(64)),
 )
 
+VipCouponse = Table(
+    "vip_couponse",
+    metadata,
+    Column("id", String(64), primary_key=True),
+    Column("create_time", DateTime),
+    Column("activate_time", DateTime),
+    Column("activate_user_id", String(128)),
+    Column("creater_phone", String(128)),
+    Column("order_id", Integer),
+    Column("status", Integer),
+)
 
 # databases query builder
 database = Database(DATABASE_URL)
