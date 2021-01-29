@@ -1,9 +1,11 @@
+from logging import LogRecord
 from typing import List
 
-from app.modules import md_couponse
 from fastapi import APIRouter
 import app.config as cfg
-from app.api.models import CouPonseAct
+from app.api.models import CreateOrder
+from loguru import logger
+
 
 router = APIRouter()
 
@@ -13,5 +15,6 @@ async def ceshi():
 
 
 @router.get("/create")
-async def generator_couponse():
-    pass
+async def generator_couponse(data:CreateOrder):
+    logger.info(data.to_string())
+    return data.to_json()
