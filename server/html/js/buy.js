@@ -19,7 +19,7 @@ function checkBtn(){
     }
     var stringData=JSON.stringify(data);
     xmlhttp.onreadystatechange=function(){
-        var resObj = jQuery.parseJSON(xmlhttp.responseText);
+        var resObj = JSON.parse(xmlhttp.responseText);
         console.log(resObj);
         if (resObj.status == 200){
             document.getElementById("log").innerHTML=resObj.msg.url;
