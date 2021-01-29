@@ -19,12 +19,16 @@ function checkBtn(){
     }
     var stringData=JSON.stringify(data);
     xmlhttp.onreadystatechange=function(){
-        var resObj = JSON.parse(xmlhttp.responseText);
-        console.log(resObj);
-        if (resObj.status == 200){
-            document.getElementById("log").innerHTML=resObj.msg.url;
+        if (xmlhttp.readyState==4 && xmlhttp.status==200){
+            var resObj = JSON.parse(xmlhttp.responseText);
+            console.log(resObj);
+            if (resObj.status == 200){
+                document.getElementById("log").innerHTML=resObj.msg.url;
+            }else{
+                document.getElementById("log1").innerHTML=resObj.msg;
+            }
         }else{
-            document.getElementById("log1").innerHTML=resObj.msg;
+            document.getElementById("log1").innerHTML=xmlhttp.responseText;
         }
     }
     xmlhttp.open("POST","/api/order/create",true);
