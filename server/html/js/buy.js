@@ -24,10 +24,13 @@ function checkBtn(){
             console.log(resObj);
             if (resObj.status == 200)
             {
-                document.getElementById("log").innerHTML=resObj.msg.url;
+                document.getElementById("log1").innerHTML = "";
+                //在原有窗口打开
+                window.location.href = resObj.msg.url;
             }
             if (resObj.status != 200)
             {
+                document.getElementById("log").innerHTML = "";
                 document.getElementById("log1").innerHTML=resObj.msg;
             }
         }
