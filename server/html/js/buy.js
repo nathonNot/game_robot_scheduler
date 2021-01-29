@@ -26,7 +26,7 @@ function checkBtn(){
             {
                 document.getElementById("log").innerHTML=resObj.msg.url;
             }
-            else
+            if (resObj.status != 200)
             {
                 document.getElementById("log1").innerHTML=resObj.msg;
             }
