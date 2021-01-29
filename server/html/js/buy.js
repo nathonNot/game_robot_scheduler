@@ -22,14 +22,18 @@ function checkBtn(){
         if (xmlhttp.readyState==4 && xmlhttp.status==200){
             var resObj = JSON.parse(xmlhttp.responseText);
             console.log(resObj);
-            if (resObj.status == 200){
+            if (resObj.status == 200)
+            {
                 document.getElementById("log").innerHTML=resObj.msg.url;
-            }else{
+            }
+            else
+            {
                 document.getElementById("log1").innerHTML=resObj.msg;
             }
-        }else{
-            document.getElementById("log1").innerHTML=xmlhttp.responseText;
         }
+        // }else{
+        //     document.getElementById("log1").innerHTML=xmlhttp.responseText;
+        // }
     }
     xmlhttp.open("POST","/api/order/create",true);
     xmlhttp.setRequestHeader("Content-type","application/json;charset=UTF-8");//可以发送json格式字符串
