@@ -30,4 +30,4 @@ async def create_order(data:CreateOrder):
     query = OrderDb.insert().values(**insert_dc)
     query = await database.execute(query=query)
 
-    return 200,{"url":"www.baidu.com"}
+    return 200,{"url":"https://www.baidu.com"}
