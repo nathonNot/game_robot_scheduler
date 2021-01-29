@@ -132,3 +132,5 @@ tests/.vscode/settings.json
 android_controller/.vscode/settings.json
 server/.vscode/settings.json
 android_controller/.vscode/settings.json
+server/app/lib/应用公钥2048.txt
+server/app/lib/应用私钥2048.txt
