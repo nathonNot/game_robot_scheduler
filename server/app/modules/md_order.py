@@ -13,7 +13,7 @@ async def create_order(data:CreateOrder):
         if userdb is None:
             return 440,"用户账户不存在"
         insert_dc["user_id"] = userdb.get("id")
-    if data.user_phone != 0 and len(data.user_phone) < 11:
+    if data.user_phone != 0 and len(str(data.user_phone)) < 11:
         return 440,"手机号格式不正确"
     if data.buyer_num <= 0:
         return 400,"购买数量不能小于0"
