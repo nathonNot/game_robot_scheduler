@@ -1,0 +1,22 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <title>购买vip</title>  
+    <link rel="stylesheet" type="text/css" href=".\css\buy_css.css"/>  
+</head>  
+<body>  
+    <div id="buy">  
+        <div id="log1"></div>
+        <h1>购买vip</h1>  
+            <input id = "user_name" type="text" required="required" placeholder="请输入手机号" name="u"></input>
+            <input id = "buy_num" type="text" required="required" placeholder="购买数量" name="p"></input>
+            <p><input id ="cbb_usePhone" type="checkbox" name="vehicle" checked="checked" onclick=on_use_phone_click() >使用手机号作为交易标识</input></p>
+            <p><input id ="cbb_recharge" type="checkbox" name="vehicle" checked="checked" onclick=on_recharge_click() >直冲，不返回激活码</input></p>
+            <button class="bt_buy" onclick=checkBtn() >购买</button>
+    <div id="log">
+    </div>
+    </div>  
+</body>
+<script type="text/javascript" src="js\buy.js"></script>
+</html>  
