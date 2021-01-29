@@ -3,7 +3,7 @@ from app.api.models import CreateOrder
 from app.db import OrderDb,database,TableUser
 from app.util.json_util import DateEncoder,json,get_uuid
 from sqlalchemy.sql import func
-
+from app.lib import alipay
 
 async def create_order(data:CreateOrder):
     insert_dc = {}
@@ -29,5 +29,5 @@ async def create_order(data:CreateOrder):
         insert_dc["is_zhichong"] = 0
     query = OrderDb.insert().values(**insert_dc)
     query = await database.execute(query=query)
-
-    return 200,{"url":"https://www.baidu.com"}
+    url = alipay.get_url(order_id,0.1)
+    return 200,{"url":url}
