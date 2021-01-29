@@ -14,7 +14,7 @@ async def ceshi():
     return "order"
 
 
-@router.get("/create")
+@router.post("/create")
 async def generator_couponse(data:CreateOrder):
     logger.info(data.to_string())
     return data.to_json()
