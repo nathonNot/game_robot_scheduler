@@ -23,7 +23,7 @@ function checkBtn(){
             document.getElementById("log").innerHTML=xmlhttp.responseText;
         }
     }
-    xmlhttp.open("POST","${pageContext.request.contextPath}/api/order/create",true);
+    xmlhttp.open("POST","/api/order/create",true);
     xmlhttp.setRequestHeader("Content-type","application/json;charset=UTF-8");//可以发送json格式字符串
     xmlhttp.send(stringData);
 }
