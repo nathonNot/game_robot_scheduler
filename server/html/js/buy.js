@@ -21,6 +21,7 @@ function checkBtn(){
     xmlhttp.onreadystatechange=function(){
         if (xmlhttp.readyState==4 && xmlhttp.status==200){
             var resObj = jQuery.parseJSON(xmlhttp.responseText);
+            console.log(resObj);
             if (resObj.status == 200){
                 document.getElementById("log").innerHTML=resObj.msg.url;
             }else{

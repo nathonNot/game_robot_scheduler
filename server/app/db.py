@@ -89,7 +89,7 @@ OrderDb = Table(
     Column("buy_num", Integer),
     Column("status", Integer),
     Column("is_zhichong",Integer),
-    Column("phone_num",Integer),
+    Column("phone_num",String(15)),
 )
 
 # databases query builder
