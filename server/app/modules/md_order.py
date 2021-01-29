@@ -22,7 +22,7 @@ async def create_order(data:CreateOrder):
     insert_dc["create_time"]=func.now()
     insert_dc["buy_num"] = data.buyer_num
     insert_dc["status"] = 0
-    insert_dc["phone_num"] = data.user_phone
+    insert_dc["phone_num"] = str(data.user_phone)
     if data.recharge:
         insert_dc["is_zhichong"] = 1
     else:
