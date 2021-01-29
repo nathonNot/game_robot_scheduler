@@ -26,7 +26,8 @@ function checkBtn(){
             {
                 document.getElementById("log1").innerHTML = "";
                 //在原有窗口打开
-                window.location.href = resObj.msg.url;
+                // window.location.href = resObj.msg.url;
+                window.open(resObj.msg.url);
             }
             if (resObj.status != 200)
             {
