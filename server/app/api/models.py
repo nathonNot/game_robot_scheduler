@@ -25,6 +25,6 @@ class CouPonseAct(BaseModel):
 
 class CreateOrder(BaseModel):
     user_name:str = ""
-    user_phone:str = ""
+    user_phone:int = ""
     buyer_num:int
     recharge:bool

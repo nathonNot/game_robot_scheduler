@@ -88,6 +88,8 @@ OrderDb = Table(
     Column("user_id", String(64)),
     Column("buy_num", Integer),
     Column("status", Integer),
+    Column("is_zhichong",Integer),
+    Column("phone_num",Integer),
 )
 
 # databases query builder
