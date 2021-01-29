@@ -77,5 +77,18 @@ VipCouponse = Table(
     Column("status", Integer),
 )
 
+OrderDb = Table(
+    "pay_order",
+    metadata,
+    Column("id", String(64), primary_key=True),
+    # 流水id
+    Column("order_id", String(64),comment="商户流水id"),
+    Column("create_time", DateTime),
+    Column("pay_time", DateTime),
+    Column("user_id", String(64)),
+    Column("buy_num", Integer),
+    Column("status", Integer),
+)
+
 # databases query builder
 database = Database(DATABASE_URL)
