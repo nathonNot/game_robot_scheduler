@@ -17,4 +17,4 @@ async def alipay_gatwey(request: Request):
         return "error"
     md_order.inpay_order(data)
     logger.info(data)
-    return "ok"
+    return "success"
