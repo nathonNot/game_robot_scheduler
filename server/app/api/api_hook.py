@@ -11,6 +11,8 @@ router = APIRouter()
 @router.post("/ali_pay")
 async def alipay_gatwey(request: Request):
     data = await request.form()
+    query_data = request.query_params
+    logger.info(query_data)
     order_id = data.get("out_trade_no","")
     if order_id == "":
         logger.error(data)
