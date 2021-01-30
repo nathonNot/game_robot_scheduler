@@ -31,7 +31,7 @@ async def create_order(data:CreateOrder):
         insert_dc["is_zhichong"] = 0
     query = OrderDb.insert().values(**insert_dc)
     query = await database.execute(query=query)
-    url = alipay.get_pay_url(order_id,0.1)
+    url = alipay.get_pay_url(order_id,0.01)
     return 200,{"url":url}
 
 async def inpay_order(data:dict):
