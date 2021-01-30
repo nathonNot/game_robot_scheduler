@@ -11,3 +11,4 @@ requests==2.22.0
 loguru
 pycryptodome
 python-alipay-sdk==2.1.1
+python-multipart
