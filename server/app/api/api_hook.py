@@ -3,20 +3,18 @@ from starlette.requests import Request
 from app.util.rsa import return_respons
 import json
 from loguru import logger
+from app.modules import md_order
 
 router = APIRouter()
 
 
-@router.get("/ali_pay")
-async def alipay_hook(request: Request):
-    logger.info(str(request.query_params))
-    data = await request.body()
-    logger.info(data)
-    return "ok"
-
 @router.post("/ali_pay")
 async def alipay_gatwey(request: Request):
-    logger.info(str(request.query_params))
-    data = await request.body()
+    data = await request.json()
+    order_id = data.get("out_trade_no","")
+    if order_id == "":
+        logger.error(data)
+        return "error"
+    md_order.inpay_order(data)
     logger.info(data)
     return "ok"

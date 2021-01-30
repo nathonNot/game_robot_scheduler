@@ -4,6 +4,8 @@ from app.db import OrderDb,database,TableUser
 from app.util.json_util import DateEncoder,json,get_uuid
 from sqlalchemy.sql import func
 from app.lib import alipay
+from loguru import logger
+import datetime
 
 async def create_order(data:CreateOrder):
     insert_dc = {}
@@ -31,3 +33,28 @@ async def create_order(data:CreateOrder):
     query = await database.execute(query=query)
     url = alipay.get_pay_url(order_id,0.1)
     return 200,{"url":url}
+
+async def inpay_order(data:dict):
+    order_id = data["out_trade_no"]
+    trade_no = data["trade_no"]
+    trade_status = data["trade_status"]
+    if trade_status != "TRADE_SUCCESS":
+        logger.info("标识未成功")
+        return
+    query = OrderDb.select().where(order_id == OrderDb.c.id)
+    order = await database.fetch_one(query=query)
+    if order is None:
+        logger.error("未找到订单相关数据")
+        return
+    # 修改状态为支付成功
+    update = (
+        OrderDb.update()
+        .where(OrderDb.c.id == order_id)
+        .values(pay_time = datetime.datetime.now(),
+                status = 1,
+                order_id = trade_no
+        )
+        .returning(OrderDb.c.id)
+    )
+    await database.execute(query=update)
+    return
