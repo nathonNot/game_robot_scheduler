@@ -28,3 +28,17 @@ class CreateOrder(BaseModel):
     user_phone:int = ""
     buyer_num:int = 0
     recharge:bool
+
+class AliPay(BaseModel):
+    # 开发者的app_id
+    app_id:str
+    # 商户订单号
+    out_trade_no:str
+    # 签名
+    sign:str
+    # 交易状态
+    trade_status:str
+    # 支付宝交易号
+    trade_no:str
+    # 交易金额
+    total_amount:str
