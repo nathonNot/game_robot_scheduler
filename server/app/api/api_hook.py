@@ -10,11 +10,13 @@ router = APIRouter()
 @router.get("/ali_pay")
 async def alipay_hook(request: Request):
     logger.info(str(request.query_params))
-    logger.info(request.body())
+    data = await request.body()
+    logger.info(data)
     return "ok"
 
 @router.post("/ali_pay")
 async def alipay_gatwey(request: Request):
     logger.info(str(request.query_params))
-    logger.info(request.body())
+    data = await request.body()
+    logger.info(data)
     return "ok"
