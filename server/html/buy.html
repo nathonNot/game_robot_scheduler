@@ -8,10 +8,11 @@
 <body>  
     <div id="buy">  
         <h1>购买vip</h1>  
-        <form method="post">  
-            <input type="text" required="required" placeholder="用户名" name="u"></input>  
-            <input type="password" required="required" placeholder="密码" name="p"></input>  
-            <button class="but" type="submit" onclick=checkBtn() >登录</button>  
+        <form method="post">
+            <input id = "user_name" type="text" required="required" placeholder="账号名" name="u"></input>
+            <input type="text" required="required" placeholder="购买数量" name="p"></input>
+            <input id ="cbb_usePhone" type="checkbox" name="vehicle" checked="checked" onclick=on_use_phone_click() >使用手机号作为交易标识</input>
+            <button class="bt_buy" type="submit" onclick=checkBtn() >购买</button>  
         </form>  
     </div>  
 </body>

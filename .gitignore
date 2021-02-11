@@ -133,3 +133,4 @@ android_controller/.vscode/settings.json
 server/.vscode/settings.json
 android_controller/.vscode/settings.json
 server/tests/test_ping.py
+server/html/js/buy.js
